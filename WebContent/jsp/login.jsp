@@ -10,7 +10,7 @@
 	<h1>ログイン</h1>
 	<form action="http://localhost:8080/ecPr/loginServlet" method="post">
 	<%
-        if (request.getAttribute("code") != null){
+        if (request.getAttribute("notEntered") != null ){
             out.println("入力してください");
         }
         %>
