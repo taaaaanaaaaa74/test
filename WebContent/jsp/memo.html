@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+create table meisai(
+mei_id int primary key,
+user_id int,
+pro_cd int,
+ko_date date,
+mei_price int
+);
+
+create table user(
+user_name varchar(100),
+login_cd varchar(100) primary key,
+login_pw varchar(100)
+);
+
+create table product(
+pro_cd int primary key,
+pro_name varchar(100),
+stock_no int,
+pro_price int,
+cat_id int,
+pro_img varchar(100),
+pro_msg varchar(100)
+);
+
+create table category(
+cat_id int primary key,
+cat_name varchar(100)
+);
+
+insert category values(310,"漫画"),(311,"anime"),(312,"eiga");
+update category set
+update category set cat_name ="manga" wher e cat_name=1;
+update user set
+
+insert user values("nakama","mataiki","mataiki397"),("tanabe","syouhei","shouheihe--i");
+
+
+insert product values(1111,"ジャンプ",300,280,2222,"j","友情、努力、勝利"),(3333,"ドラえもん",3000,2000,4444,"d","映画のジャイアン変わりすぎじゃね？")
+
+
+</body>
+</html>

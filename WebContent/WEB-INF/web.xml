@@ -19,14 +19,4 @@
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/loginServlet</url-pattern>
   </servlet-mapping>
-
-  <filter>
-    <display-name>Filter</display-name>
-    <filter-name>Filter</filter-name>
-    <filter-class>ecPr.Filter</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>Filter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
 </web-app>
