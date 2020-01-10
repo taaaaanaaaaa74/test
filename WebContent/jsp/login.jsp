@@ -9,8 +9,11 @@
 	<h1>ログイン</h1>
 	<form action="http://localhost:8080/ecPr/loginServlet" method="post">
 	<%
-        if (request.getAttribute("notEntered") != null ){
+        if (request.getAttribute("notEntered") != null){
             out.println("入力してください");
+        }
+        else if(request.getAttribute("disagree") != null) {
+        	out.println("名前かパスワードが不一致です");
         }
         %>
 		<table>
