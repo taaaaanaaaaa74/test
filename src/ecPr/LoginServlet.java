@@ -1,7 +1,6 @@
 package ecPr;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -24,12 +23,85 @@ public class LoginServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		PrintWriter out = response.getWriter();
+
 		//o名前とパスワードを受け取る
 		String loginCode = request.getParameter("userName");
 		String loginPass = request.getParameter("userPassword");
+
+
+		//dbに接続
+		Connection conn = null;
+		Statement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+									//com.mysql.cj.jdbc.Driver (MySQL8.0以降)
+		} catch (ClassNotFoundException ex) {
+			ex.printStackTrace();
+		}
+		try {
+			String url = "jdbc:mysql://localhost:3306/st";
+							//jdbc:mysql://localhost:3306/st?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true （mysql8.0以降）
+			String id = "root";
+			String pass = "password";
+			conn = DriverManager.getConnection(url, id, pass);
+
+			stmt = conn.createStatement();
+
+			//oテーブルuserを参照
+			String query = "select * from user";
+			rs = stmt.executeQuery(query);
+
+
+			while (rs.next() ) {
+				//String useName = rs.getString("user_name");
+				String loginCd = rs.getString("login_cd");
+				String loginPw = rs.getString("login_pw");
+				//loginCode loginPassが一致するか判定
+				//一致すればsession開始、検索画面に遷移
+				if (loginCode.equals(loginCd) && loginPass.equals(loginPw) ) {
+					HttpSession session = request.getSession(true);
+					session.setAttribute("user", loginCode);
+					session.setAttribute("password", loginPass);
+					RequestDispatcher rd = request.getRequestDispatcher("/jsp/search.jsp");
+					rd.forward(request, response);
+					}//if
+
+				}//while
+
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (rs != null)
+					rs.close();
+				if (stmt != null)
+					stmt.close();
+				if (conn != null)
+					conn.close();
+
+			} catch (Exception ex) {
+				// TODO: handle exception
+			}
+		}
+			if (loginCode.equals("") || loginPass.equals("") ){
+					//oログインコードかログインパスワードのいずれかが空白の場合の処理
+					HttpSession session = request.getSession(true); //oこれたぶん必要ない
+					request.setAttribute("notEntered", "no");
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
+					dispatcher.forward(request, response);
+				}
+				else {
+					//oログインコードとログインパスワードのいずれかが間違っている場合の処理
+					request.setAttribute("disagree", "no");
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
+					dispatcher.forward(request, response);
+
+				}
 
 //		out.println("<html><head><title>aa</title></head>");
 //		out.println("<body>");
@@ -37,11 +109,11 @@ public class LoginServlet extends HttpServlet {
 //		out.println("loginPass;" + loginPass);
 //		out.println("<br>");
 
-		/*
-		 * 空白がある場合に元のjspで入力をうながす
-		 * servletで空白の判定をするのでlogin.jspではパラメーターを受け取ったら「入力してください」でいい
-		 */
-//		//--実装可能-----------------------------
+			/*
+			 * 空白がある場合に元のjspで入力をうながす
+			 * servletで空白の判定をするのでlogin.jspではパラメーターを受け取ったら「入力してください」でいい
+			 */
+//		//--o実装可能-----------------------------
 //		if (loginCode.equals("") || loginPass.equals("") ){
 //			/* jspに渡す表示の処理 */
 //			HttpSession session = request.getSession(true);
@@ -50,8 +122,8 @@ public class LoginServlet extends HttpServlet {
 //			dispatcher.forward(request, response);
 //		}
 //		//
-		//loginCode,loginPasswordがあっているか判定
-//		//ログインテスト開始------------------------
+			//loginCode,loginPasswordがあっているか判定
+//		//oログインテスト開始------------------------
 //		else if(loginCode.equals("aa") && loginPass.equals("aa") ) {
 //			HttpSession session = request.getSession(true);
 //			session.setAttribute("loginCode", loginCode);
@@ -80,78 +152,6 @@ public class LoginServlet extends HttpServlet {
 //		}
 //		//----------------------------------------------------
 
-		//dbに接続
-		Connection conn = null;
-		Statement stmt = null;
-		ResultSet rs = null;
-
-		try {
-			Class.forName("com.mysql.jdbc.Driver");
-		} catch (ClassNotFoundException ex) {
-			ex.printStackTrace();
-		}
-		try {
-			String url = "jdbc:mysql://localhost/st";
-			String id = "root";
-			String pass = "password";
-			conn = DriverManager.getConnection(url, id, pass);
-
-			stmt = conn.createStatement();
-
-			//oテーブルuserを参照
-			String query = "select * from user";
-			rs = stmt.executeQuery(query);
-
-
-			while (rs.next()) {
-				String useName = rs.getString("user_name");
-				String loginCd = rs.getString("login_cd");
-				String loginPw = rs.getString("login_pw");
-				//loginCode loginPassが一致するか判定
-				//session開始、検索画面に遷移
-
-				if (loginCode.equals(loginCd) && loginPass.equals(loginPw) ) {
-					HttpSession session = request.getSession(true);
-					session.setAttribute("user", loginCode);
-					session.setAttribute("password", loginPass);
-					RequestDispatcher rd = request.getRequestDispatcher("/jsp/search.jsp");
-					rd.forward(request, response);
-					//oリダイレクト?
-					//response.sendRedirect("");
-
-				}//if
-			}//while
-				if (loginCode.equals("") || loginPass.equals("") ){
-					/* 空白判定 jspに渡す表示の処理 */
-					HttpSession session = request.getSession(true);
-					request.setAttribute("notEntered", "no");
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
-					dispatcher.forward(request, response);
-				}
-				else {
-					//ログインコードとログインパスワードのいずれかが間違っている場合の処理
-					request.setAttribute("disagree", "no");
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
-					dispatcher.forward(request, response);
-
-				}
-
-
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		} finally {
-			try {
-				if (rs != null)
-					rs.close();
-				if (stmt != null)
-					stmt.close();
-				if (conn != null)
-					conn.close();
-
-			} catch (Exception ex) {
-				// TODO: handle exception
-			}
-		}
 
 		//------------------------
 //		//request.setAttribute("result", "aaaaaaaaaaaa");

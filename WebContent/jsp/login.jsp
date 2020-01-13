@@ -7,7 +7,6 @@
 </head>
 <body>
 	<h1>ログイン</h1>
-	<form action="http://localhost:8080/ecPr/loginServlet" method="post">
 	<%
         if (request.getAttribute("notEntered") != null){
             out.println("入力してください");
@@ -16,6 +15,7 @@
         	out.println("名前かパスワードが不一致です");
         }
         %>
+	<form action="http://localhost:8080/ecPr/loginServlet" method="post">
 		<table>
 		<tr>
 		 <th>名前</th>

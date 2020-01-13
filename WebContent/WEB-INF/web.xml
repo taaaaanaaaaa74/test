@@ -19,4 +19,14 @@
     <servlet-name>LoginServlet</servlet-name>
     <url-pattern>/loginServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>DetailsServlet</display-name>
+    <servlet-name>DetailsServlet</servlet-name>
+    <servlet-class>ecPr.DetailsServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>DetailsServlet</servlet-name>
+    <url-pattern>/DetailsServlet</url-pattern>
+  </servlet-mapping>
 </web-app>

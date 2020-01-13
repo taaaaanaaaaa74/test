@@ -1,57 +1,82 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="Search.css">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-<h1>検索</h1>
-<input type="text" name="category">
-<p>カテゴリー</p>
- <select name="カテゴリ">
-  <option> </option>
-  <option>漫画</option>
-  <option>アニメ</option>
-  <option>映画</option>
-  </select>
+	<div style="text-align: center;">
+		<h1>検索</h1>
+		<form action="http://localhost:8080/ecPr/SearchServlet" method="post">
+			<input type="text" name="category">
+			<p>カテゴリー</p>
+			<select name="カテゴリ">
+				<option value="">--選択--</option>
+				<option value="manga">漫画</option>
+				<option value="anime">アニメ</option>
+				<option value="movie">映画</option>
+			</select> <input type="submit" value="検索">
+		</form>
+	</div>
+	<br>
 
-   <table border>
-		 <tr>
-		 <th>商品名</th>
-		 <th>価格</th>
-		 <th>詳細</th>
-		 </tr>
-		 <tr>
-		 <td>ジャンプ</td>
-		 <td>２８０</td>
-		 <td><input type="submit" value ="詳細"></td>
-   </table>
+	<form action="http://localhost:8080/exPr/DetailsServlet" method="post">
+		<table>
+			<tr>
+				<th>商品名</th>
+				<th>価格</th>
+				<th>詳細</th>
+			</tr>
+			<tr>
+				<td>ジャンプ</td>
+				<td>0000</td>
+				<td>
+					<div style="text-align: center;">
+						<input style="text-align: center;" type="submit" name="jump"
+							value="詳細">
+					</div>
+				</td>
+			</tr>
+		</table>
 
-   <table border>
-         <tr>
-		 <th>商品名</th>
-		 <th>価格</th>
-		 <th>詳細</th>
-		 </tr>
-		 <tr>
-		 <td>ドラえもん</td>
-		 <td>２０００</td>
-		 <td><input type="submit" value="詳細"></td>
-	</table>
+		<table>
+			<tr>
+				<th>商品名</th>
+				<th>価格</th>
+				<th>詳細</th>
+			</tr>
+			<tr>
+				<td>ドラえもん</td>
+				<td>1111</td>
+				<td>
+					<div style="text-align: center;">
+						<input type="submit" name="dora" value="詳細">
+					</div>
+				</td>
+			</tr>
+		</table>
 
-	<table border>
-	     <tr>
-		 <th>商品名</th>
-		 <th>価格</th>
-		 <th>詳細</th>
-		 </tr>
-		 <tr>
-		 <td>ディズニー</td>
-		 <td>３０００</td>
-		 <td><input type="submit" value="詳細"></td>
-	</table>
+		<table>
+			<tr>
+				<th>商品名</th>
+				<th>価格</th>
+				<th>詳細</th>
+			</tr>
+			<tr>
+				<td>ディズニー</td>
+				<td>2222</td>
+				<td>
+					<div style="text-align: center;">
+						<input type="submit" name="disney" value="詳細">
+					</div>
+				</td>
+			</tr>
+		</table>
+	</form>
+
 
 </body>
 </html>
