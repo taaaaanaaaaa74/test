@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
  */
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	int count = 0;
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -63,15 +64,32 @@ public class LoginServlet extends HttpServlet {
 				String loginPw = rs.getString("login_pw");
 				//loginCode loginPassが一致するか判定
 				//一致すればsession開始、検索画面に遷移
-				if (loginCode.equals(loginCd) && loginPass.equals(loginPw) ) {
+				if (loginCode.equals("") || loginPass.equals("") ){
+					//oログインコードかログインパスワードのいずれかが空白の場合の処理
+					//HttpSession session = request.getSession(true); //これたぶん必要ない
+					request.setAttribute("notEntered", "no");
+					RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
+					dispatcher.forward(request, response);
+					count += 1;
+					break;
+				}//if
+				else if (loginCode.equals(loginCd) && loginPass.equals(loginPw) ) {
 					HttpSession session = request.getSession(true);
 					session.setAttribute("user", loginCode);
 					session.setAttribute("password", loginPass);
 					RequestDispatcher rd = request.getRequestDispatcher("/jsp/search.jsp");
 					rd.forward(request, response);
-					}//if
+					count += 1;
+					break;
 
+					}//else if
 				}//while
+				//oログインコードとログインパスワードのいずれかが間違っている場合の処理
+				if(count < 1) {
+				request.setAttribute("disagree", "no");
+				RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
+				dispatcher.forward(request, response);
+				}
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -88,20 +106,6 @@ public class LoginServlet extends HttpServlet {
 				// TODO: handle exception
 			}
 		}
-			if (loginCode.equals("") || loginPass.equals("") ){
-					//oログインコードかログインパスワードのいずれかが空白の場合の処理
-					HttpSession session = request.getSession(true); //oこれたぶん必要ない
-					request.setAttribute("notEntered", "no");
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
-					dispatcher.forward(request, response);
-				}
-				else {
-					//oログインコードとログインパスワードのいずれかが間違っている場合の処理
-					request.setAttribute("disagree", "no");
-					RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
-					dispatcher.forward(request, response);
-
-				}
 
 //		out.println("<html><head><title>aa</title></head>");
 //		out.println("<body>");

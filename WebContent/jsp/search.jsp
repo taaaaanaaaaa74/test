@@ -3,17 +3,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" type="text/css" href="Search.css">
+<link rel="stylesheet" type="text/css" href="/ecPr/css/Search.css">
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
 	<div style="text-align: center;">
 		<h1>検索</h1>
-		<form action="http://localhost:8080/ecPr/SearchServlet" method="post">
-			<input type="text" name="category">
+		<form action="http://localhost:8080/ecPr/searchServlet" method="post">
+			<input type="text" name="categoryText">
 			<p>カテゴリー</p>
-			<select name="カテゴリ">
+			<select name="category">
 				<option value="">--選択--</option>
 				<option value="manga">漫画</option>
 				<option value="anime">アニメ</option>

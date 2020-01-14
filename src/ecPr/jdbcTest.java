@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class jdbcTest {
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] args){
 		// TODO 自動生成されたメソッド・スタブ
 		//dbに接続
 
@@ -19,7 +19,7 @@ public class jdbcTest {
 			/*
 			 * ドライバ名を記述
 			 */
-			Class.forName("com.mysql.cj.jdbc.Driver"); //mysql 8.0以前なら "com.mysql.jdbc.Driver" ？
+			Class.forName("com.mysql.jdbc.Driver"); //mysql 8.0以前なら "com.mysql.jdbc.Driver" ？
 		} catch (ClassNotFoundException ex) {
 			ex.printStackTrace();
 		}
@@ -27,9 +27,9 @@ public class jdbcTest {
 			/*
 			 * url, id, passをそれぞれ入力
 			 */
-			String url = "jdbc:mysql://localhost:3306/st?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true";
+			String url = "jdbc:mysql://localhost:3306/st"; //?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true";
 			String id = "root";
-			String pass = "1qaz2wsx";
+			String pass = "password";
 			conn = DriverManager.getConnection(url, id, pass);
 
 			stmt = conn.createStatement();

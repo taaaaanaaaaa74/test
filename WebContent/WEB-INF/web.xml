@@ -21,12 +21,12 @@
   </servlet-mapping>
   <servlet>
     <description></description>
-    <display-name>DetailsServlet</display-name>
-    <servlet-name>DetailsServlet</servlet-name>
-    <servlet-class>ecPr.DetailsServlet</servlet-class>
+    <display-name>SearchServlet</display-name>
+    <servlet-name>SearchServlet</servlet-name>
+    <servlet-class>ecPr.SearchServlet</servlet-class>
   </servlet>
   <servlet-mapping>
-    <servlet-name>DetailsServlet</servlet-name>
-    <url-pattern>/DetailsServlet</url-pattern>
+    <servlet-name>SearchServlet</servlet-name>
+    <url-pattern>/searchServlet</url-pattern>
   </servlet-mapping>
 </web-app>
