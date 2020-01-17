@@ -1,6 +1,7 @@
 package ecPr;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -19,6 +20,7 @@ import javax.servlet.http.HttpSession;
  */
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
 	int count = 0;
 
 	/**
@@ -27,6 +29,8 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
+
+		PrintWriter out = response.getWriter();
 
 		//o名前とパスワードを受け取る
 		String loginCode = request.getParameter("userName");
@@ -45,7 +49,7 @@ public class LoginServlet extends HttpServlet {
 			ex.printStackTrace();
 		}
 		try {
-			String url = "jdbc:mysql://localhost:3306/st";
+			String url = "jdbc:mysql://localhost/st";
 							//jdbc:mysql://localhost:3306/st?characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B9&rewriteBatchedStatements=true （mysql8.0以降）
 			String id = "root";
 			String pass = "password";
@@ -57,7 +61,8 @@ public class LoginServlet extends HttpServlet {
 			String query = "select * from user";
 			rs = stmt.executeQuery(query);
 
-
+			//PreparedStatement使う(指定できるやつ) if (rs.next() ) {} else{ヒットしない場合}
+			//---------------------------------
 			while (rs.next() ) {
 				//String useName = rs.getString("user_name");
 				String loginCd = rs.getString("login_cd");
@@ -73,6 +78,7 @@ public class LoginServlet extends HttpServlet {
 					count += 1;
 					break;
 				}//if
+				//ログインコードとパスワードが一致する場合の処理
 				else if (loginCode.equals(loginCd) && loginPass.equals(loginPw) ) {
 					HttpSession session = request.getSession(true);
 					session.setAttribute("user", loginCode);
@@ -84,11 +90,11 @@ public class LoginServlet extends HttpServlet {
 
 					}//else if
 				}//while
-				//oログインコードとログインパスワードのいずれかが間違っている場合の処理
+				//oログインコードかログインパスワードのいずれかが間違っている（入力が一致せず、空白でもない）場合の処理
 				if(count < 1) {
-				request.setAttribute("disagree", "no");
-				RequestDispatcher dispatcher = request.getRequestDispatcher("/jsp/login.jsp");
-				dispatcher.forward(request, response);
+				request.setAttribute("disagree", "d");
+				RequestDispatcher dispatch = request.getRequestDispatcher("/jsp/login.jsp");
+				dispatch.forward(request, response);
 				}
 
 		} catch (SQLException ex) {
@@ -109,9 +115,9 @@ public class LoginServlet extends HttpServlet {
 
 //		out.println("<html><head><title>aa</title></head>");
 //		out.println("<body>");
-//		out.println("loginCode:" + loginCode + "<br>");
-//		out.println("loginPass;" + loginPass);
-//		out.println("<br>");
+//		out.println("aaa:" + loginCode + "<br>");
+//		out.println("bbb;" + loginPass + "<br>");
+//		out.println("</body></html>");
 
 			/*
 			 * 空白がある場合に元のjspで入力をうながす

@@ -10,11 +10,17 @@
 <body>
 	<div style="text-align: center;">
 		<h1>検索</h1>
+		<%
+			if(request.getAttribute("notEntered") != null) {
+				out.println("入力するかセレクトボックスから選択してください");
+				}
+		%>
+
 		<form action="http://localhost:8080/ecPr/searchServlet" method="post">
 			<input type="text" name="categoryText">
 			<p>カテゴリー</p>
 			<select name="category">
-				<option value="">--選択--</option>
+				<option value="notSelect">--選択--</option>
 				<option value="manga">漫画</option>
 				<option value="anime">アニメ</option>
 				<option value="movie">映画</option>
